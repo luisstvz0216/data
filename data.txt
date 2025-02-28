@@ -1,1 +1,11 @@
-OJSSID=b84430220e54a37486aab828d500fa98
+data = {
+    "medi": "http://medisur.sld.cu/index.php/medisur",
+    "user": "kssfs",
+    "pasw": "kssfs@telegmail.com",
+    "id_art": "46052",
+    "cookie": "OJSSID=b84430220e54a37486aab828d500fa98"
+}
+
+
+
+
