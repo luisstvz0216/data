@@ -5,7 +5,3 @@ data = {
     "id_art": "46052",
     "cookie": "OJSSID=b84430220e54a37486aab828d500fa98"
 }
-
-
-
-
