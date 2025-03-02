@@ -17,8 +17,8 @@ else:
 
 # Instalar dependencias
 print("Instalando dependencias...")
-os.system("pip install aiohttp tqdm")  # Agrega aquí las dependencias necesarias
+os.system("pip3 install aiohttp tqdm")  # Agrega aquí las dependencias necesarias
 
 # Ejecutar el script
 print("Ejecutando el script...")
-os.system("python vpnv1.py")
+os.system("python3 vpnv1.py")
