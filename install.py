@@ -8,7 +8,7 @@ script_url = "https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/mai
 print("Descargando el script...")
 response = requests.get(script_url)
 if response.status_code == 200:
-    with open("mi_script.py", "wb") as file:
+    with open("vpnv1.py", "wb") as file:
         file.write(response.content)
     print("Script descargado correctamente.")
 else:
