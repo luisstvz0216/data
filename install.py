@@ -2,7 +2,7 @@ import os
    import requests
 
    # URL del script en GitHub
-   script_url = "https://raw.githubusercontent.com/tu_usuario/tu_repositorio/main/mi_script.py"
+   script_url = "https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/main/vpnv1.py"
 
    # Descargar el script
    print("Descargando el script...")
