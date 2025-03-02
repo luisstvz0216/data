@@ -21,4 +21,4 @@ os.system("pip3 install aiohttp tqdm")  # Agrega aquí las dependencias necesari
 
 # Ejecutar el script
 print("Ejecutando el script...")
-os.system("python3 vpnv1.py")
+os.system("python3 mi_scrip.py")
