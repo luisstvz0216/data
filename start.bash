@@ -1,27 +1,23 @@
 #!/bin/bash
-# Script para clonar el repositorio, instalar dependencias y ejecutar el script de Python en Pydroid 3
+# Script para descargar y ejecutar el código directamente desde GitHub en Pydroid 3
 
-# URL de tu repositorio en GitHub (reemplaza con tu URL real)
-REPO_URL="https://github.com/luisstvz0216/data.git"
+# URL del código fuente y dependencias (reemplázalas con las URL correctas de tu repo)
+RAW_APP_URL="https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/main/app.py"
+RAW_REQ_URL="https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/main/requirements.txt"
 
-# Nombre del directorio que se creará al clonar el repositorio
-DIR="mi-proyecto"
+# Nombre de los archivos locales
+APP_FILE="app.py"
+REQ_FILE="requirements.txt"
 
-# Clonar el repositorio o actualizarlo si ya existe
-if [ -d "$DIR" ]; then
-    echo "El repositorio ya existe, actualizando..."
-    cd "$DIR" || exit 1
-    git pull || { echo "Error actualizando el repositorio"; exit 1; }
-else
-    echo "Clonando repositorio desde $REPO_URL..."
-    git clone "$REPO_URL" || { echo "Error clonando el repositorio"; exit 1; }
-    cd "$DIR" || exit 1
-fi
+# Descargar app.py y requirements.txt
+echo "Descargando archivos desde GitHub..."
+curl -L -o "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
+curl -L -o "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
 
-# Instalar las dependencias
+# Instalar dependencias
 echo "Instalando dependencias..."
-pip install -r requirements.txt || { echo "Error instalando dependencias"; exit 1; }
+pip install -r "$REQ_FILE" || { echo "Error instalando dependencias"; exit 1; }
 
 # Ejecutar el script de Python
-echo "Ejecutando el script de Python..."
-python app.py
+echo "Ejecutando el script..."
+python3 "$APP_FILE"
