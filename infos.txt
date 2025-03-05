@@ -1,0 +1,3 @@
+HOST = "http://medisur.sld.cu/index.php/medisur"
+USER = "qwqjuzlj"
+PASSWORD = "qwqjuzlj@telegmail.com"
