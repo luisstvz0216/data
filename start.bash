@@ -2,7 +2,7 @@
 # Script para clonar el repositorio, instalar dependencias y ejecutar el script de Python en Pydroid 3
 
 # URL de tu repositorio en GitHub (reemplaza con tu URL real)
-REPO_URL="https://github.com/tu_usuario/mi-proyecto.git"
+REPO_URL="https://github.com/luisstvz0216/data.git"
 
 # Nombre del directorio que se creará al clonar el repositorio
 DIR="mi-proyecto"
