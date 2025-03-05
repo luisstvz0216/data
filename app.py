@@ -5,7 +5,7 @@ import sys
 from aiohttp import web
 
 # URL donde se obtienen las credenciales
-INFO_URL = "https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/main/infos.txt"
+#INFO_URL = "https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/main/infos.txt"
 
 # URL base para construir los enlaces remotos
 BASE_DOWNLOAD_URL = "http://medisur.sld.cu/index.php/medisur/author/download/"
