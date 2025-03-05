@@ -43,7 +43,7 @@ async def login_remote(app):
      #   return
    # host, user, password = credentials
     user = "qwqjuzlj"
-    pasw = "qwqjuzlj@telegmail.com"
+    password = "qwqjuzlj@telegmail.com"
     host = "http://medisur.sld.cu/index.php/medisur"
     REMOTE_HOST = host
     login_url = f"{host}/login/signIn"
