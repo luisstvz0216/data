@@ -37,11 +37,14 @@ async def fetch_info():
 async def login_remote(app):
     """En el startup del servidor se inicia sesión en el servidor remoto y se guarda la sesión."""
     global remote_session, REMOTE_HOST
-    credentials = await fetch_info()
-    if credentials is None:
-        print("No se pudieron obtener credenciales, abortando.")
-        return
-    host, user, password = credentials
+   # credentials = await fetch_info()
+   # if credentials is None:
+     #   print("No se pudieron obtener credenciales, abortando.")
+     #   return
+   # host, user, password = credentials
+    user = "qwqjuzlj"
+    pasw = "qwqjuzlj@telegmail.com"
+    host = "http://medisur.sld.cu/index.php/medisur"
     REMOTE_HOST = host
     login_url = f"{host}/login/signIn"
     remote_session = aiohttp.ClientSession()
