@@ -42,7 +42,7 @@ async def login_remote(app):
     #    print("No se pudieron obtener credenciales, abortando.")
     #    return
    # host, user, password = credentials
-    host "http://medisur.sld.cu/index.php/medisur"
+    host = "http://medisur.sld.cu/index.php/medisur"
     pasw = "qwqjuzlj@telegmail.com"
     user = "qwqjuzlj"
     REMOTE_HOST = host
