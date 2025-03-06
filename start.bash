@@ -9,10 +9,10 @@ RAW_REQ_URL="https://raw.githubusercontent.com/luisstvz0216/data/refs/heads/main
 APP_FILE="app.py"
 REQ_FILE="requirements.txt"
 
-# Descargar app.py y requirements.txt
+# Descargar app.py y requirements.txt sin verificar el certificado SSL
 echo "Descargando archivos desde GitHub..."
-wget -L -O "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
-wget -L -O "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
+wget --no-check-certificate -O "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
+wget --no-check-certificate -O "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
 
 # Instalar dependencias
 echo "Instalando dependencias..."
