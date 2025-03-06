@@ -11,8 +11,8 @@ REQ_FILE="requirements.txt"
 
 # Descargar app.py y requirements.txt
 echo "Descargando archivos desde GitHub..."
-wget -O "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
-wget -O "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
+wget -L -O "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
+wget -L -O "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
 
 # Instalar dependencias
 echo "Instalando dependencias..."
