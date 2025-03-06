@@ -11,8 +11,8 @@ REQ_FILE="requirements.txt"
 
 # Descargar app.py y requirements.txt
 echo "Descargando archivos desde GitHub..."
-curl -L -O "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
-curl -L -O "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
+curl -L -o "$APP_FILE" "$RAW_APP_URL" || { echo "Error descargando app.py"; exit 1; }
+curl -L -o "$REQ_FILE" "$RAW_REQ_URL" || { echo "Error descargando requirements.txt"; exit 1; }
 
 # Instalar dependencias
 echo "Instalando dependencias..."
