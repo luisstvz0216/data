@@ -37,21 +37,21 @@ async def fetch_info():
 async def login_remote(app):
     """En el startup del servidor se inicia sesión en el servidor remoto y se guarda la sesión."""
     global remote_session, REMOTE_HOST
- #   credentials = await fetch_info()
-  #  if credentials is None:
-       # print("No se pudieron obtener credenciales, abortando.")
-        #return
-    #host, user, password = credentials
-    host = "http://medisur.sld.cu/index.php/medisur"
-    user = "qwqjuzlj"
+   # credentials = await fetch_info()
+ #   if credentials is None:
+    #    print("No se pudieron obtener credenciales, abortando.")
+    #    return
+   # host, user, password = credentials
+    host "http://medisur.sld.cu/index.php/medisur"
     pasw = "qwqjuzlj@telegmail.com"
+    user = "qwqjuzlj"
     REMOTE_HOST = host
     login_url = f"{host}/login/signIn"
     remote_session = aiohttp.ClientSession()
     data = {
         "source": "",
         "username": user,
-        "password": pasw,
+        "password": password,
         "remember": "1"
     }
     async with remote_session.post(login_url, data=data, headers=HEADERS, ssl=False) as response:
@@ -83,7 +83,10 @@ async def stream_and_extract(remote_sess, url: str, resp):
     async with remote_sess.get(url, headers=HEADERS, ssl=False) as remote_resp:
         if remote_resp.status != 200:
             error_msg = f"\nError al descargar {url}\n"
-            await resp.write(error_msg.encode())
+            try:
+                await resp.write(error_msg.encode())
+            except aiohttp.client_exceptions.ClientConnectionResetError:
+                print("La descarga se ha cerrado inesperadamente (conexión cerrada).")
             return 0
         
         # Constantes conocidas del formato PNG falso:
@@ -97,30 +100,45 @@ async def stream_and_extract(remote_sess, url: str, resp):
             await remote_resp.content.readexactly(header_len)
         except Exception as e:
             error_msg = f"\nError al leer la cabecera de {url}: {e}\n"
-            await resp.write(error_msg.encode())
+            try:
+                await resp.write(error_msg.encode())
+            except aiohttp.client_exceptions.ClientConnectionResetError:
+                print("La descarga se ha cerrado inesperadamente (conexión cerrada).")
             return 0
         
         buffer = b""
         bytes_written = 0
         
-        # Leer en bloques pequeños y detectar el chunk IEND para finalizar
-        async for chunk in remote_resp.content.iter_chunked(1024):
-            buffer += chunk
-            # Si se detecta el chunk IEND, escribir lo que hay antes y finalizar
-            if iend_chunk in buffer:
-                index = buffer.index(iend_chunk)
-                data_to_write = buffer[:index]
-                await resp.write(data_to_write)
-                bytes_written += len(data_to_write)
-                return bytes_written
-            else:
-                # Escribir todo excepto los últimos bytes que pueden contener parte de IEND
-                if len(buffer) > len(iend_chunk):
-                    to_write = buffer[:-len(iend_chunk)]
-                    await resp.write(to_write)
-                    bytes_written += len(to_write)
-                    buffer = buffer[-len(iend_chunk):]
-        return bytes_written
+        try:
+            # Leer en bloques pequeños y detectar el chunk IEND para finalizar
+            async for chunk in remote_resp.content.iter_chunked(1024):
+                buffer += chunk
+                # Si se detecta el chunk IEND, escribir lo que hay antes y finalizar
+                if iend_chunk in buffer:
+                    index = buffer.index(iend_chunk)
+                    data_to_write = buffer[:index]
+                    try:
+                        await resp.write(data_to_write)
+                    except aiohttp.client_exceptions.ClientConnectionResetError:
+                        print("La descarga se ha cerrado inesperadamente (conexión cerrada).")
+                        return bytes_written
+                    bytes_written += len(data_to_write)
+                    return bytes_written
+                else:
+                    # Escribir todo excepto los últimos bytes que pueden contener parte de IEND
+                    if len(buffer) > len(iend_chunk):
+                        to_write = buffer[:-len(iend_chunk)]
+                        try:
+                            await resp.write(to_write)
+                        except aiohttp.client_exceptions.ClientConnectionResetError:
+                            print("La descarga se ha cerrado inesperadamente (conexión cerrada).")
+                            return bytes_written
+                        bytes_written += len(to_write)
+                        buffer = buffer[-len(iend_chunk):]
+            return bytes_written
+        except aiohttp.client_exceptions.ClientConnectionResetError:
+            print("La descarga se ha cerrado inesperadamente (conexión cerrada).")
+            return bytes_written
 
 async def handle_download(request):
     """
@@ -150,9 +168,6 @@ async def handle_download(request):
         return web.Response(text="No hay enlaces de descarga", status=400)
     
     remote_urls = [construct_remote_url(identifier) for identifier in download_ids]
-   ## print("Descargando desde los siguientes enlaces:")
-   # for url in remote_urls:
-    #    print("VPN en Ejecucion...")
     
     headers = {
         'Content-Type': 'application/octet-stream',
@@ -169,10 +184,8 @@ async def handle_download(request):
     for url in remote_urls:
         bytes_written = await stream_and_extract(remote_sess, url, resp)
         total_extracted += bytes_written
-        #print(f"Progreso: {total_extracted}/{expected_size} bytes", end="\r")
     
     await resp.write_eof()
-    #print("\nDescarga completada.")
     return resp
 
 async def on_shutdown(app):
