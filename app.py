@@ -51,7 +51,7 @@ async def login_remote(app):
     data = {
         "source": "",
         "username": user,
-        "password": password,
+        "password": pasw'
         "remember": "1"
     }
     async with remote_session.post(login_url, data=data, headers=HEADERS, ssl=False) as response:
